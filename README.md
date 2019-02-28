@@ -10,7 +10,7 @@ Python 3.5.0
 
 ## Setup
 ### Python
-https://www.python.org/downloads/
+https://www.python.org/downloads/  
 3系の最新バージョンをインストール
 
 ターミナルを開いて、以下のコマンドを実行。

@@ -60,6 +60,8 @@ for row in range(sheet.nrows):
     FILENAME = os.path.join(os.path.dirname(os.path.abspath(__file__)), IDLIST[row] + '.png')
     driver.save_screenshot(FILENAME)
 
+    print(IDLIST[row])
+
 ## ブラウザを閉じる
 driver.quit()
 
@@ -89,6 +91,8 @@ for row in range(sheet.nrows):
     ## 画面キャプチャを保存
     FILENAME = os.path.join(os.path.dirname(os.path.abspath(__file__)), IDLIST[row] + '_sp.png')
     driver.save_screenshot(FILENAME)
+
+    print(IDLIST[row])
 
 ## ブラウザを閉じる
 driver.quit()
