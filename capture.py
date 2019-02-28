@@ -4,6 +4,10 @@ import xlsxwriter
 import math
 import time
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+options = Options()
+options.add_argument('--headless')
 
 ## -------------------------------------
 ## ExcelのURLからスクショを保存
@@ -31,9 +35,8 @@ for row in range(sheet.nrows):
     TITLELIST.append(TITLE)
 
 ## PCキャプチャ
-## ブラウザを起動（ページ全体をキャプチャしてくれるためSafariを使用）
-driver = webdriver.Safari()
-driver.maximize_window()
+## ブラウザを起動
+driver = webdriver.Chrome(chrome_options=options)
 
 ##  URLを取得（キャプチャ保存）
 for row in range(sheet.nrows):
@@ -44,8 +47,14 @@ for row in range(sheet.nrows):
     ## 画面遷移
     driver.get(URL)
 
+    # スクリーンサイズ設定
+    # page_width = driver.execute_script('return document.body.scrollWidth')
+    page_height = driver.execute_script('return document.body.scrollHeight')
+    driver.set_window_size(1200, page_height)
+
     ## 遷移直後だと崩れた状態でスクショされる可能性があるため、1秒待機
     time.sleep(1)
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
     ## 画面キャプチャを保存
     FILENAME = os.path.join(os.path.dirname(os.path.abspath(__file__)), IDLIST[row] + '.png')
@@ -55,12 +64,12 @@ for row in range(sheet.nrows):
 driver.quit()
 
 ## SPキャプチャ
-## ブラウザを起動（ページ全体をキャプチャしてくれるためSafariを使用）
-driver = webdriver.Safari()
+## ブラウザを起動
+driver = webdriver.Chrome(chrome_options=options)
+
 ## UA判定が必要な場合は上記を削除し、以下を使用
 # USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A356 Safari/604.1"
 # driver = webdriver.PhantomJS(desired_capabilities={'phantomjs.page.settings.userAgent': USER_AGENT})
-driver.set_window_size(375, 720)
 
 ##  URLを取得（キャプチャ保存）
 for row in range(sheet.nrows):
@@ -69,6 +78,10 @@ for row in range(sheet.nrows):
 
     ## 画面遷移
     driver.get(URL)
+
+    # スクリーンサイズ設定
+    page_height = driver.execute_script('return document.body.scrollHeight')
+    driver.set_window_size(375, page_height)
 
     ## 遷移直後だと崩れた状態でスクショされる可能性があるため、1秒待機
     time.sleep(1)
